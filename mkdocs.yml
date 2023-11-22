@@ -1,0 +1,5 @@
+site_name: Musicgen
+
+nav:
+    - "index.md"
+    - Advanced Usage: "advanced.md"
