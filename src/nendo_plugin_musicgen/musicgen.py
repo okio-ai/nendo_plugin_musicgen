@@ -18,8 +18,9 @@ def load_model(
     Returns:
         MusicGen: The pretrained model.
     """
-    model = MusicGen.get_pretrained(version)
-    model.lm.to("cuda")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = MusicGen.get_pretrained(version, device=device)
+    model.lm.to(device)
     return model
 
 

@@ -54,34 +54,34 @@ class NendoMusicGen(NendoGeneratePlugin):
 
     @NendoGeneratePlugin.run_track
     def run_track(
-            self,
-            track: Optional[NendoTrack] = None,
-            bpm: int = 120,
-            key: Literal[
-                "C",
-                "C#",
-                "D",
-                "D#",
-                "E",
-                "F",
-                "F#",
-                "G",
-                "G#",
-                "A",
-                "Bb",
-                "B",
-            ] = "",
-            scale: Literal["Major", "Minor"] = "",
-            prompt: str = "",
-            temperature: float = 1.0,
-            cfg_coef: float = 3.5,
-            start_time: int = 0,
-            duration: int = 30,
-            conditioning_length: int = 1,
-            seed: int = -1,
-            n_samples: int = 2,
-            model: str = settings.model,
-            use_melody_conditioning: bool = settings.use_melody_conditioning,
+        self,
+        track: Optional[NendoTrack] = None,
+        bpm: int = 120,
+        key: Literal[
+            "C",
+            "C#",
+            "D",
+            "D#",
+            "E",
+            "F",
+            "F#",
+            "G",
+            "G#",
+            "A",
+            "Bb",
+            "B",
+        ] = "",
+        scale: Literal["Major", "Minor"] = "",
+        prompt: str = "",
+        temperature: float = 1.0,
+        cfg_coef: float = 3.5,
+        start_time: int = 0,
+        duration: int = 30,
+        conditioning_length: int = 1,
+        seed: int = -1,
+        n_samples: int = 2,
+        model: str = settings.model,
+        use_melody_conditioning: bool = settings.use_melody_conditioning,
     ):
         """Generate an outpainting from a track, use a track as melody conditioning or generate a track from scratch.
 
@@ -109,7 +109,7 @@ class NendoMusicGen(NendoGeneratePlugin):
         """
         if use_melody_conditioning:
             assert (
-                    "melody" in model or "melody" in self.current_version
+                "melody" in model or "melody" in self.current_version
             ), "Melody conditioning needs a model trained on melody conditioning."
 
         if model != self.current_version:
@@ -123,8 +123,13 @@ class NendoMusicGen(NendoGeneratePlugin):
             y, sr = track.signal, track.sr
             musicgen_sample = (sr, y[:, : sr * duration].T)
 
-        if track is not None and len(track.get_plugin_data("nendo_plugin_classify_core")) > 1:
-            bpm = int(float(track.get_plugin_data("nendo_plugin_classify_core", "tempo")))
+        if (
+            track is not None
+            and len(track.get_plugin_data("nendo_plugin_classify_core")) > 1
+        ):
+            bpm = int(
+                float(track.get_plugin_data("nendo_plugin_classify_core", "tempo"))
+            )
             key = track.get_plugin_data("nendo_plugin_classify_core", "key")
             scale = track.get_plugin_data("nendo_plugin_classify_core", "scale")
 
