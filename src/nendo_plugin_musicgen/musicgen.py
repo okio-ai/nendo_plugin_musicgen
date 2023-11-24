@@ -222,6 +222,7 @@ def do_predictions(
     outputs = outputs.detach().cpu().float()
     outputs = convert_audio(outputs, target_sr, sr_select, 2)
 
-    torch.cuda.empty_cache()
-    torch.cuda.ipc_collect()
+    if model.device == "cuda":
+        torch.cuda.empty_cache()
+        torch.cuda.ipc_collect()
     return outputs
