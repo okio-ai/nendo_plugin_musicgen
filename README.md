@@ -22,6 +22,13 @@ MusicGen: A state-of-the-art controllable text-to-music model (by [Meta Research
 
 ## Requirements
 
+Since we depend on `audiocraft`, please make sure that you fulfill their requirements. 
+You need Pytorch 2.0.0 or higher, which can be installed via
+
+`pip install "torch>=2.0"`
+
+> Note: On Mac OSX, the instructions for installing pytorch differ. Please refer to the [pytorch installation instructions](https://pytorch.org/get-started/locally/). For all other problems please refer to the [audiocraft repository](https://github.com/facebookresearch/audiocraft/).
+
 Due to a dependency conflict with `pydantic`, this plugin requires the manual installation of okio's `music` fork:
 
 `pip install git+https://github.com/okio-ai/audiocraft`
