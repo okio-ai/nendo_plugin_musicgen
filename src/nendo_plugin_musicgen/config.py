@@ -7,7 +7,7 @@ class NendoMusicGenConfig(BaseSettings):
     Default settings for the Nendo musicgen plugin.
     """
 
-    model: str = Field("facebook/musicgen-stereo-large")
+    model: str = Field("facebook/musicgen-stereo-medium")
     use_melody_conditioning: bool = Field(False)
     duration: float = Field(30.0)
     sample_rate: int = Field(32000)

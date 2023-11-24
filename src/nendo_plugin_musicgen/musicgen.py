@@ -18,8 +18,9 @@ def load_model(
     Returns:
         MusicGen: The pretrained model.
     """
-    model = MusicGen.get_pretrained(version)
-    model.lm.to("cuda")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = MusicGen.get_pretrained(version, device=device)
+    model.lm.to(device)
     return model
 
 
@@ -221,6 +222,7 @@ def do_predictions(
     outputs = outputs.detach().cpu().float()
     outputs = convert_audio(outputs, target_sr, sr_select, 2)
 
-    torch.cuda.empty_cache()
-    torch.cuda.ipc_collect()
+    if model.device == "cuda":
+        torch.cuda.empty_cache()
+        torch.cuda.ipc_collect()
     return outputs
