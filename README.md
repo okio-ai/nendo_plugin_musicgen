@@ -27,7 +27,7 @@ You need Pytorch 2.0.0 or higher, which can be installed via
 
 `pip install "torch>=2.0"`
 
-For all other problems please refer to the [audiocraft repository](https://github.com/facebookresearch/audiocraft/).
+> Note: On Mac OSX, the instructions for installing pytorch differ. Please refer to the [pytorch installation instructions](https://pytorch.org/get-started/locally/). For all other problems please refer to the [audiocraft repository](https://github.com/facebookresearch/audiocraft/).
 
 Due to a dependency conflict with `pydantic`, this plugin requires the manual installation of okio's `music` fork:
 
