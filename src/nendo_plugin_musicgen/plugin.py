@@ -128,10 +128,10 @@ class NendoMusicGen(NendoGeneratePlugin):
             and len(track.get_plugin_data("nendo_plugin_classify_core")) > 1
         ):
             bpm = int(
-                float(track.get_plugin_data("nendo_plugin_classify_core", "tempo"))
+                float(track.get_plugin_value("tempo")),
             )
-            key = track.get_plugin_data("nendo_plugin_classify_core", "key")
-            scale = track.get_plugin_data("nendo_plugin_classify_core", "scale")
+            key = track.get_plugin_value("key")
+            scale = track.get_plugin_value("scale")
 
         params = {
             "prompt": prompt,
