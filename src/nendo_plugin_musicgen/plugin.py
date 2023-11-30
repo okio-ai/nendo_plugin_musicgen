@@ -125,7 +125,7 @@ class NendoMusicGen(NendoGeneratePlugin):
 
         if (
             track is not None
-            and len(track.get_plugin_value("tempo")) > 0
+            and len(track.get_plugin_data("nendo_plugin_classify_core")) > 1
         ):
             bpm = int(
                 float(track.get_plugin_value("tempo")),
