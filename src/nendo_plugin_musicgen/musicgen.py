@@ -175,6 +175,9 @@ def do_predictions(
                 melody = convert_audio(melody, sr, target_sr, target_ac)
                 processed_melodies.append(melody)
 
+        melody_single = processed_melodies[0]
+        processed_melodies = [melody_single for _ in range(n_samples)]
+
     if sample is not None:
         if sample_p is None:
             # expand to repeat the sample n_sample times

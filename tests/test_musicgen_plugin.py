@@ -25,7 +25,7 @@ class MusicGenPluginTest(unittest.TestCase):
             key="C",
             scale="Major",
             model="facebook/musicgen-small",
-            duration=30,
+            duration=10,
             conditioning_length=10,
         )
 
@@ -43,7 +43,7 @@ class MusicGenPluginTest(unittest.TestCase):
             key="C",
             scale="Major",
             model="facebook/musicgen-small",
-            duration=30,
+            duration=10,
             conditioning_length=10,
         )
 
@@ -82,8 +82,8 @@ class MusicGenPluginTest(unittest.TestCase):
             use_melody_conditioning=True,
         )
 
-        self.assertEqual(len(nd.library.get_collection_tracks(gen_collection.id)), 1)
-        self.assertEqual(len(nd.library.get_tracks()), 2)
+        self.assertEqual(len(nd.library.get_collection_tracks(gen_collection.id)), 2)
+        self.assertEqual(len(nd.library.get_tracks()), 3)
 
     def test_run_process_musicgen_melody_conditioning(self):
         nd.library.reset(force=True)
@@ -101,8 +101,8 @@ class MusicGenPluginTest(unittest.TestCase):
             use_melody_conditioning=True,
         )
 
-        self.assertEqual(len(nd.library.get_collection_tracks(gen_collection.id)), 1)
-        self.assertEqual(len(nd.library.get_tracks()), 2)
+        self.assertEqual(len(nd.library.get_collection_tracks(gen_collection.id)), 2)
+        self.assertEqual(len(nd.library.get_tracks()), 3)
 
 
 if __name__ == "__main__":
