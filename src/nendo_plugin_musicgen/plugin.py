@@ -162,7 +162,7 @@ class NendoMusicGen(NendoGeneratePlugin):
             melodies=[musicgen_sample] if use_melody_conditioning else None,
             cfg_coef=cfg_coef,
             seed=seed,
-            n_samples=1 if use_melody_conditioning else n_samples,
+            n_samples=n_samples,
         )
 
         if track is None:
