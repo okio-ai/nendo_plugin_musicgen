@@ -20,6 +20,13 @@ MusicGen: A state-of-the-art controllable text-to-music model (by [Meta Research
 - Use a `NendoTrack` as melody conditioning to generate music
 - Use custom finetuned musicgen models
 
+## Community Finetunes 🔥
+
+For a list of community finetunes check out [`community_finetunes.json`](docs/community_finetunes.json).
+If you want to contribute one to the list, open a PR 
+or contact us via [Twitter](https://twitter.com/okio_ai) 
+or [Discord](https://discord.gg/gaZMZKzScj)!
+
 ## Requirements
 
 Since we depend on `audiocraft`, please make sure that you fulfill their requirements. 
@@ -29,9 +36,9 @@ You need Pytorch 2.0.0 or higher, which can be installed via
 
 > Note: On Mac OSX, the instructions for installing pytorch differ. Please refer to the [pytorch installation instructions](https://pytorch.org/get-started/locally/). For all other problems please refer to the [audiocraft repository](https://github.com/facebookresearch/audiocraft/).
 
-Due to a dependency conflict with `pydantic`, this plugin requires the manual installation of okio's `music` fork:
+To run the plugin you also need to install `audiocraft` by Meta AI Research, run:
 
-`pip install git+https://github.com/okio-ai/audiocraft`
+`pip install git+https://github.com/facebookresearch/audiocraft`
 
 ## Installation
 

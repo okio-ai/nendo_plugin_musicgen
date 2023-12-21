@@ -1,0 +1,14 @@
+{
+  "huggingface_models": [
+    {
+      "author": "pharoAIsanders420",
+      "link": "pharoAIsanders420/musicgen-medium-boombap",
+      "weblink": "https://huggingface.co/pharoAIsanders420/musicgen-medium-hiphop"
+    },
+    {
+      "author": "pharoAIsanders420",
+      "link": "pharoAIsanders420/musicgen-small-dnb",
+      "weblink": "https://huggingface.co/pharoAIsanders420/musicgen-small-dnb"
+    },
+  ]
+}
