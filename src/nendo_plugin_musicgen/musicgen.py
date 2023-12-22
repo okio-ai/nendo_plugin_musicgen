@@ -1,10 +1,10 @@
-import random
-from typing import Literal, Tuple, Optional, List
-
 import numpy as np
+import random
 import torch
 from audiocraft.data.audio_utils import convert_audio
 from audiocraft.models import MusicGen
+from logging import Logger
+from typing import Literal, Tuple, Optional, List
 
 
 def load_model(
@@ -64,6 +64,7 @@ def do_predictions(
 
     Args:
         model (MusicGen): The pretrained model.
+        logger (Logger): The logger to use for logging.
         global_prompt (str): The prompt for the generation.
         temperature (float): The temperature for the generation. Controls how "random" the next token will be.
         bpm (int): The bpm of the generated track.
