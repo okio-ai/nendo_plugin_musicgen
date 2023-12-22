@@ -18,11 +18,30 @@ For these community finetunes you can try the following one's:
 
 ## Prompt helper references
 
-Try one of these LLM's and prompts that help with generating prompts for musicgen:
+To craft effective prompts, one strategy 
+is to use "LP-MusicCaps" (https://huggingface.co/spaces/seungheondoh/LP-Music-Caps-demo) 
+to describe any song as text and then ask a LLM: 
+`"Take the following text, summarize it and then transform it into a descriptive prompts for a text to music AI: [your LP-Music-Caps generated text]"`
+
+Or try one of these LLM's and prompts that help with generating prompts for musicgen:
 
 - [Musicgen Prompt Generator](https://flowgpt.com/p/musicgen-prompt-generator)
 - [Tips for generating prompts with LLMs](https://samim.io/p/2023-11-20-a-gpt-prompt-for-it-to-generate-musicgen-prompts-that/)
 
+
 ## Complete Examples
 
-- `"genre: hiphop", The audio quality is recorded at 320kbps and 48kHz. "Retro Vibes" with a old-school boombap jazz melody. A jazzy and soulful chord progression that is creative and suprising. boom-bap drum patterns, catchy hooks. Inspired by the likes of A Tribe Called Quest, Pete Rock, and DJ Premier"`
+BOOMBAP:
+```
+"genre: hiphop", 4/4 320kbps 48khz. "Retro Vibes" with a nostalgic and old-school boombap melody that is reminiscent of the golden era of hip-hop. A jazzy and soulful chord progression. laid-back and chilled-out mood. boom-bap drum patterns, catchy hooks, and smooth flows."
+```
+
+DUB:
+```
+"genre: dub", 4/4 320kbps 48khz, Dub reggae track with a groovy bass line, bouncy percussion, electric guitars, a organ melody, horns, steady drums, punchy snare, and shimmering hi-hats. Laid back, groovy, bouncy, passionate and hypnotic."
+```
+
+DNB:
+```
+"genre: dnb", 4/4 320kbps 48khz, Drum & bass song with a groovy dubstep synth bass line, punchy kick and snare hits, shimmering hi hats, synth pad and repetitive synth lead melody. It sounds energetic and exciting, like something you would hear in underground clubs."
+```
