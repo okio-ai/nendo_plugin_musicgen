@@ -3,12 +3,20 @@
     {
       "author": "pharoAIsanders420",
       "link": "pharoAIsanders420/musicgen-medium-boombap",
-      "weblink": "https://huggingface.co/pharoAIsanders420/musicgen-medium-hiphop"
+      "weblink": "https://huggingface.co/pharoAIsanders420/musicgen-medium-hiphop",
+      "system_prompt": "genre: hiphop"
     },
     {
       "author": "pharoAIsanders420",
       "link": "pharoAIsanders420/musicgen-small-dnb",
-      "weblink": "https://huggingface.co/pharoAIsanders420/musicgen-small-dnb"
+      "weblink": "https://huggingface.co/pharoAIsanders420/musicgen-small-dnb",
+      "system_prompt": "genre: dnb"
     },
+    {
+      "author": "pharoAIsanders420",
+      "link": "pharoAIsanders420/musicgen-stereo-dub",
+      "weblink": "https://huggingface.co/pharoAIsanders420/musicgen-stereo-dub",
+      "system_prompt": "genre: dub"
+    }
   ]
 }

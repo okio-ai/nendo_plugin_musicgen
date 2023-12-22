@@ -56,7 +56,7 @@ class NendoMusicGen(NendoGeneratePlugin):
     def run_track(
         self,
         track: Optional[NendoTrack] = None,
-        bpm: int = 120,
+        bpm: int = 0,
         key: Literal[
             "C",
             "C#",
@@ -146,6 +146,7 @@ class NendoMusicGen(NendoGeneratePlugin):
 
         outputs = do_predictions(
             model=self.model,
+            logger=self.logger,
             global_prompt=prompt,
             temperature=temperature,
             bpm=bpm,

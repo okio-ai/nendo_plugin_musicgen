@@ -41,6 +41,7 @@ def normalize_audio(audio_data: np.ndarray) -> np.ndarray:
 
 def do_predictions(
     model: MusicGen,
+    logger: Logger,
     global_prompt: str,
     temperature: float,
     bpm: int,
@@ -125,7 +126,9 @@ def do_predictions(
             duration = sample_length + 0.5
 
     texts = []
-    bpm_str = str(bpm) + " bpm"
+    bpm_str = ""
+    if bpm != 0:
+        bpm_str = str(bpm) + " bpm"
     if key != "" and scale != "":
         key_str = ", " + str(key) + " " + str(scale)
     else:
@@ -144,7 +147,7 @@ def do_predictions(
         **gen_kwargs,
     )
 
-    print(
+    logger.debug(
         "new batch",
         len(texts),
         texts,
