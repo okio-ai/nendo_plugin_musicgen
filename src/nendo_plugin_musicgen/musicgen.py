@@ -1,10 +1,10 @@
-import random
-from typing import Literal, Tuple, Optional, List
-
 import numpy as np
+import random
 import torch
 from audiocraft.data.audio_utils import convert_audio
 from audiocraft.models import MusicGen
+from logging import Logger
+from typing import Literal, Tuple, Optional, List
 
 
 def load_model(
@@ -41,6 +41,7 @@ def normalize_audio(audio_data: np.ndarray) -> np.ndarray:
 
 def do_predictions(
     model: MusicGen,
+    logger: Logger,
     global_prompt: str,
     temperature: float,
     bpm: int,
@@ -63,6 +64,7 @@ def do_predictions(
 
     Args:
         model (MusicGen): The pretrained model.
+        logger (Logger): The logger to use for logging.
         global_prompt (str): The prompt for the generation.
         temperature (float): The temperature for the generation. Controls how "random" the next token will be.
         bpm (int): The bpm of the generated track.
@@ -125,7 +127,9 @@ def do_predictions(
             duration = sample_length + 0.5
 
     texts = []
-    bpm_str = str(bpm) + " bpm"
+    bpm_str = ""
+    if bpm != 0:
+        bpm_str = str(bpm) + " bpm"
     if key != "" and scale != "":
         key_str = ", " + str(key) + " " + str(scale)
     else:
@@ -144,7 +148,7 @@ def do_predictions(
         **gen_kwargs,
     )
 
-    print(
+    logger.debug(
         "new batch",
         len(texts),
         texts,
