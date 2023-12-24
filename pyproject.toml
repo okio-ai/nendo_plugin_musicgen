@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nendo_plugin_musicgen"
-version = "0.1.2"
+version = "0.1.3"
 authors = [
   "Aaron Abebe <aaron@okio.ai>",
 ]
