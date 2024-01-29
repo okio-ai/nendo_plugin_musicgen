@@ -104,29 +104,45 @@ class NendoMusicGen(NendoGeneratePlugin):
             for track in tqdm(collection.tracks()):
                 classify_data = track.get_plugin_data("nendo_plugin_classify_core")
 
-                if len(classify_data) == 0:
+                if len(classify_data) < 1:
                     self.logger.warning(f"""
                     No classification data found for track {track.id}!
                     For good finetuning results we recommend running `nendo_plugin_classify_core` first.
                     Otherwise conditioning the model will be worse.
                     """)
-
-                entry = {
-                    "key": track.get_plugin_data("nendo_plugin_classify_core", "key")[0].value,
-                    "artist": track.get_meta("artist") or "",
-                    "sample_rate": track.sr,
-                    "file_extension": "wav",
-                    "description": prompt,
-                    "keywords": "",
-                    "duration": track.signal.shape[1] / track.sr,
-                    "bpm": track.get_plugin_data("nendo_plugin_classify_core", "tempo")[0].value,
-                    "genre": track.get_plugin_data("nendo_plugin_classify_core", "genres")[0].value,
-                    "title": track.get_meta("title") or "",
-                    "name": track.get_meta("name") or "",
-                    "instrument": track.get_plugin_data("nendo_plugin_classify_core", "instruments")[0].value,
-                    "moods": track.get_plugin_data("nendo_plugin_classify_core", "moods")[0].value,
-                    "path": track.resource.src,
-                }
+                    entry = {
+                        "key": "",
+                        "artist": track.get_meta("artist") or "",
+                        "sample_rate": track.sr,
+                        "file_extension": "wav",
+                        "description": prompt,
+                        "keywords": "",
+                        "duration": track.signal.shape[1] / track.sr,
+                        "bpm": "",
+                        "genre": "",
+                        "title": track.get_meta("title") or "",
+                        "name": track.get_meta("name") or "",
+                        "instrument": "",
+                        "moods": "",
+                        "path": track.resource.src,
+                    }
+                else:
+                    entry = {
+                        "key": track.get_plugin_data("nendo_plugin_classify_core", "key")[0].value,
+                        "artist": track.get_meta("artist") or "",
+                        "sample_rate": track.sr,
+                        "file_extension": "wav",
+                        "description": prompt,
+                        "keywords": "",
+                        "duration": track.signal.shape[1] / track.sr,
+                        "bpm": track.get_plugin_data("nendo_plugin_classify_core", "tempo")[0].value,
+                        "genre": track.get_plugin_data("nendo_plugin_classify_core", "genres")[0].value,
+                        "title": track.get_meta("title") or "",
+                        "name": track.get_meta("name") or "",
+                        "instrument": track.get_plugin_data("nendo_plugin_classify_core", "instruments")[0].value,
+                        "moods": track.get_plugin_data("nendo_plugin_classify_core", "moods")[0].value,
+                        "path": track.resource.src,
+                    }
                 max_sample_rate = track.sr
 
             train_len += 1
