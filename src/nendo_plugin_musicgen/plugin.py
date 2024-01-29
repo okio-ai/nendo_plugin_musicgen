@@ -110,39 +110,29 @@ class NendoMusicGen(NendoGeneratePlugin):
                     For good finetuning results we recommend running `nendo_plugin_classify_core` first.
                     Otherwise conditioning the model will be worse.
                     """)
-                    entry = {
-                        "key": "",
-                        "artist": track.get_meta("artist") or "",
-                        "sample_rate": track.sr,
-                        "file_extension": "wav",
-                        "description": prompt,
-                        "keywords": "",
-                        "duration": track.signal.shape[1] / track.sr,
-                        "bpm": "",
-                        "genre": "",
-                        "title": track.get_meta("title") or "",
-                        "name": track.get_meta("name") or "",
-                        "instrument": "",
-                        "moods": "",
-                        "path": track.resource.src,
-                    }
-                else:
-                    entry = {
-                        "key": track.get_plugin_data("nendo_plugin_classify_core", "key")[0].value,
-                        "artist": track.get_meta("artist") or "",
-                        "sample_rate": track.sr,
-                        "file_extension": "wav",
-                        "description": prompt,
-                        "keywords": "",
-                        "duration": track.signal.shape[1] / track.sr,
-                        "bpm": track.get_plugin_data("nendo_plugin_classify_core", "tempo")[0].value,
-                        "genre": track.get_plugin_data("nendo_plugin_classify_core", "genres")[0].value,
-                        "title": track.get_meta("title") or "",
-                        "name": track.get_meta("name") or "",
-                        "instrument": track.get_plugin_data("nendo_plugin_classify_core", "instruments")[0].value,
-                        "moods": track.get_plugin_data("nendo_plugin_classify_core", "moods")[0].value,
-                        "path": track.resource.src,
-                    }
+
+                def check_get_data(key):
+                    data = track.get_plugin_data("nendo_plugin_classify_core", key)
+                    if len(data) < 1:
+                        return ""
+                    return data[0].value
+
+                entry = {
+                    "key": check_get_data("key"),
+                    "artist": track.get_meta("artist") or "",
+                    "sample_rate": track.sr,
+                    "file_extension": "wav",
+                    "description": prompt,
+                    "keywords": "",
+                    "duration": track.signal.shape[1] / track.sr,
+                    "bpm": check_get_data("tempo"),
+                    "genre": check_get_data("genre"),
+                    "title": track.get_meta("title") or "",
+                    "name": track.get_meta("name") or "",
+                    "instrument": check_get_data("instrument"),
+                    "moods": check_get_data("moods"),
+                    "path": track.resource.src,
+                }
                 max_sample_rate = track.sr
 
             train_len += 1
