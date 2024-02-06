@@ -169,10 +169,10 @@ class NendoMusicGen(NendoGeneratePlugin):
             conditioner = "chroma2music"
         continue_from = f"//pretrained/facebook/{model}"
 
-        device = "cuda:0" if torch.cuda.is_available() else "cpu"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
 
         args = [
-            "dora", "-P", "audiocraft",
+            "python", "-m", "dora", "-P", "audiocraft",
             "run",
             f"solver={solver}",
             f"model/lm/model_scale={model_scale}",
@@ -188,6 +188,8 @@ class NendoMusicGen(NendoGeneratePlugin):
             args.append('channels=2')
         args.append(f"datasource.max_sample_rate={max_sample_rate}")
         args.append(f"datasource.train={output_dir}")
+
+        # TODO set valid epochs, gen epochs etc
 
         args.append(f"dataset.train.num_samples={len(collection)}")
         args.append(f"optim.epochs={epochs}")
@@ -218,6 +220,8 @@ class NendoMusicGen(NendoGeneratePlugin):
 
         # export model after training
         # get model checkpoint path
+        # TODO fix this is path is not tmp or make sure path is always in tmp
+        # TODO or find way to export exp hash from run command
         for dirpath, dirnames, filenames in os.walk("tmp"):
             for filename in [f for f in filenames if f == "checkpoint.th"]:
                 checkpoint_dir = os.path.join(dirpath, filename)
