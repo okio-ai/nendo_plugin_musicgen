@@ -1,4 +1,5 @@
 import os
+import time
 import yaml
 import torch
 import subprocess
@@ -92,15 +93,13 @@ class NendoMusicGen(NendoGeneratePlugin):
         Returns:
             MusicGen: Finetuned model.
         """
-
-        # create data.jsonl from collection
-        # get data from plugin_data if available, warning if not available
-        # prepare audio and chunk
-        # create data.jsonl
         train_len = 0
         max_sample_rate = settings.sample_rate
-        os.makedirs(settings.train_output_dir, exist_ok=True)
-        with open(output_dir + "/data.jsonl", "w") as train_file:
+        output_dir = os.path.join(output_dir, model, str(collection.id), time.ctime())
+        os.makedirs(output_dir, exist_ok=True)
+
+
+        with open(output_dir + "/data.jsonl", "a") as train_file:
             for track in tqdm(collection.tracks()):
                 classify_data = track.get_plugin_data("nendo_plugin_classify_core")
 
@@ -135,10 +134,8 @@ class NendoMusicGen(NendoGeneratePlugin):
                 }
                 max_sample_rate = track.sr
 
-            train_len += 1
-            train_file.write(json.dumps(entry) + '\n')
-
-        # create args based on params
+                train_len += 1
+                train_file.write(json.dumps(entry) + '\n')
 
         # replace default config in audiocraft install dir
         pth = os.path.dirname(audiocraft.__file__)
@@ -157,7 +154,15 @@ class NendoMusicGen(NendoGeneratePlugin):
             file.write("# @package __global__\n")
             yaml.dump(data, file)
 
+        # replace dora default output dir in yaml
+        default_cfg_path = os.path.join(pth, "../config/teams/default.yaml")
+        with open(default_cfg_path, 'r') as file:
+            data = yaml.safe_load(file)
 
+        data["default"]["dora_dir"] = output_dir
+
+        with open(default_cfg_path, 'w') as file:
+            yaml.dump(data, file)
 
         if model not in ["melody", "stereo-melody"]:
             solver = "musicgen/musicgen_base_32khz"
@@ -186,12 +191,15 @@ class NendoMusicGen(NendoGeneratePlugin):
             args.append('transformer_lm.n_q=8')
             args.append('interleave_stereo_codebooks.use=True')
             args.append('channels=2')
+
         args.append(f"datasource.max_sample_rate={max_sample_rate}")
         args.append(f"datasource.train={output_dir}")
 
-        # TODO set valid epochs, gen epochs etc
-
+        # for quicker training we ignore validation and generation
+        args.append(f"dataset.valid.num_samples={1}")
+        args.append(f"dataset.generate.num_samples={1}")
         args.append(f"dataset.train.num_samples={len(collection)}")
+
         args.append(f"optim.epochs={epochs}")
         args.append(f"optim.lr={lr}")
         args.append(f"schedule.lr_scheduler={lr_scheduler}")
@@ -200,6 +208,7 @@ class NendoMusicGen(NendoGeneratePlugin):
         args.append(f"schedule.inverse_sqrt.warmup={warmup}")
         args.append(f"schedule.linear_warmup.warmup={warmup}")
         args.append(f"classifier_free_guidance.training_dropout={cfg_p}")
+
         if updates_per_epoch is not None:
             args.append(f"logging.log_updates={updates_per_epoch // 10 if updates_per_epoch // 10 >= 1 else 1}")
         else:
@@ -220,20 +229,25 @@ class NendoMusicGen(NendoGeneratePlugin):
 
         # export model after training
         # get model checkpoint path
-        # TODO fix this is path is not tmp or make sure path is always in tmp
-        # TODO or find way to export exp hash from run command
-        for dirpath, dirnames, filenames in os.walk("tmp"):
+        for dirpath, dirnames, filenames in os.walk(output_dir):
             for filename in [f for f in filenames if f == "checkpoint.th"]:
                 checkpoint_dir = os.path.join(dirpath, filename)
 
+        print("Exporting model from checkpoint dir:", checkpoint_dir)
+
+        os.makedirs(os.path.join(output_dir, "results"), exist_ok=True)
         export.export_lm(
             checkpoint_dir,
-            os.path.join(output_dir, "state_dict.bin")
+            os.path.join(output_dir, "results/state_dict.bin")
         )
         export.export_pretrained_compression_model(
             "facebook/encodec_32khz",
-            os.path.join(output_dir, "compression_state_dict.bin"),
+            os.path.join(output_dir, "results/compression_state_dict.bin"),
         )
+        print("Run your new model using the nendo_plugin_musicgen plugin:")
+        print("from nendo import Nendo")
+        print("nd = Nendo(plugins=['nendo_plugin_musicgen'])")
+        print("generations = nd.plugins.musicgen(model='" + os.path.join(output_dir, "results") + "')")
         return
 
     @NendoGeneratePlugin.run_track
