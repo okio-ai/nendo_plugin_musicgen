@@ -14,8 +14,9 @@ class NendoMusicGenConfig(BaseSettings):
     epochs: int = Field(1)
     updates_per_epoch: int = Field(100)
     batch_size: int = Field(1)
-    lr: float = Field(1)
+    lr: float = Field(1.0)
     lr_scheduler: str = Field("cosine")
     warmup_steps: int = Field(8)
     train_output_dir: str = Field("train_output")
+    cfg_p: float = Field(0.3)
 

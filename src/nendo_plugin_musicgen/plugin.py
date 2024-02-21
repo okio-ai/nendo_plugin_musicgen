@@ -74,7 +74,7 @@ class NendoMusicGen(NendoGeneratePlugin):
             lr_scheduler: str = settings.lr_scheduler,
             warmup: int = settings.warmup_steps,
             optimizer: str = "adamw",
-            cfg_p: float = 0.3,
+            cfg_p: float = settings.cfg_p,
             output_dir: str = settings.train_output_dir,
     ):
         """Finetune a pretrained model on a collection of tracks.
@@ -172,7 +172,7 @@ class NendoMusicGen(NendoGeneratePlugin):
             solver = "musicgen/musicgen_melody_32khz"
             model_scale = "medium"
             conditioner = "chroma2music"
-        continue_from = f"//pretrained/facebook/{model}"
+        continue_from = f"//pretrained/{model}"
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
