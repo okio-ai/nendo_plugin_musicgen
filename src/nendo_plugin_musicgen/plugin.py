@@ -95,7 +95,6 @@ class NendoMusicGen(NendoGeneratePlugin):
         """
         train_len = 0
         max_sample_rate = settings.sample_rate
-        output_dir = os.path.join(output_dir, model, str(collection.id), time.ctime())
         os.makedirs(output_dir, exist_ok=True)
 
 
@@ -235,19 +234,18 @@ class NendoMusicGen(NendoGeneratePlugin):
 
         print("Exporting model from checkpoint dir:", checkpoint_dir)
 
-        os.makedirs(os.path.join(output_dir, "results"), exist_ok=True)
         export.export_lm(
             checkpoint_dir,
-            os.path.join(output_dir, "results/state_dict.bin")
+            os.path.join(output_dir, "state_dict.bin")
         )
         export.export_pretrained_compression_model(
             "facebook/encodec_32khz",
-            os.path.join(output_dir, "results/compression_state_dict.bin"),
+            os.path.join(output_dir, "compression_state_dict.bin"),
         )
         print("Run your new model using the nendo_plugin_musicgen plugin:")
         print("from nendo import Nendo")
         print("nd = Nendo(plugins=['nendo_plugin_musicgen'])")
-        print("generations = nd.plugins.musicgen(model='" + os.path.join(output_dir, "results") + "')")
+        print("generations = nd.plugins.musicgen(model='" + output_dir + "')")
         return
 
     @NendoGeneratePlugin.run_track
