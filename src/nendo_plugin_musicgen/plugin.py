@@ -224,7 +224,7 @@ class NendoMusicGen(NendoGeneratePlugin):
 
         # call dora subprocess
         self.logger.warning("Starting training with args:\n" + " ".join(args))
-        subprocess.check_call(args)
+        subprocess.check_output(args)
 
         # export model after training
         # get model checkpoint path
