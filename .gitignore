@@ -162,3 +162,5 @@ cython_debug/
 nendo_plugin_remote_wrappers/
 library/
 models
+audiocraft
+train_output

@@ -36,7 +36,7 @@ classifiers = [
 python = "^3.8,<3.11"
 pydantic = { version = "^2.0.0, <2.5.0" }
 pydantic-settings = "^2.1.0"
-nendo = "^0.2.0"
+nendo = "^0.2.5"
 
 [tool.poetry.group.lint.dependencies]
 black = "^23.1.0"
