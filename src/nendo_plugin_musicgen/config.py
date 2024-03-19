@@ -19,4 +19,3 @@ class NendoMusicGenConfig(BaseSettings):
     warmup_steps: int = Field(8)
     train_output_dir: str = Field("train_output")
     cfg_p: float = Field(0.3)
-
