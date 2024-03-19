@@ -130,6 +130,7 @@ class NendoMusicGen(NendoGeneratePlugin):
 
             train_len += 1
             file_content += json.dumps(entry) + "\n"
+            track.__dict__["signal"] = None
 
         with open(output_dir + "/data.jsonl", "a") as train_file:
             train_file.write(file_content)
